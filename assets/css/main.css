@@ -1,35 +1,10 @@
-@font-face {
-	font-family: "RobotoNerd";
-	src: url('../fonts/RobotoMonoNerdFontMono-Regular.ttf')
-		format('truetype');
-}
-@font-face {
-	font-family: "RobotoNerd";
-	src: url('../fonts/RobotoMonoNerdFontMono-Italic.ttf')
-		format('truetype');
-	font-style: italic;
-}
-@font-face {
-	font-family: "RobotoNerd";
-	src: url('../fonts/RobotoMonoNerdFontMono-Bold.ttf')
-		format('truetype');
-	font-weight: 700;
-}
-@font-face {
-	font-family: "RobotoNerd";
-	src: url('../fonts/RobotoMonoNerdFontMono-BoldItalic.ttf')
-		format('truetype');
-	font-style: italic;
-	font-weight: 700;
-}
-
 html, body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
 	display: flex;
 	flex-direction: column;
-	font-family: "RobotoNerd";
+	font-family: monospace, monospace;
 	background-color: lightgrey;
 }
 
