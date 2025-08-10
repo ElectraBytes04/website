@@ -5,43 +5,29 @@ html, body {
 	display: flex;
 	flex-direction: column;
 	font-family: monospace, monospace;
-	background-color: lightgrey;
-}
-
-#nav { background-color: lightgrey;
-	width: 100%;
-	padding: 10px;
-	display: flex;
-	justify-content: center;
-	gap: 15px;
-	box-sizing: border-box;
-	z-index: 1;
-}
-#nav a {
-	text-decoration: none;
-	font-weight: bold;
+	background-color: white;
 }
 
 #content-wrapper {
-	display: flex;
-	flex: 1;
 	width: 100%;
+	flex: 1;
+	display: flex;
 	position: relative;
 }
 
 #left-margin, #right-margin {
-	position: absolute;
-	top: 0;
 	max-width: 18%;
+	height: 100%;
 	padding: 5px;
 	box-sizing: border-box;
+	top: 0;
 	flex-grow: 1;
 	z-index: 1;
-	height: 100%;
+	position: absolute;
 }
 #left-margin ul, #right-margin ul {
-	list-style-type: none;
 	padding: 5px;
+	list-style-type: none;
 }
 #left-margin a, #right-margin a {
 	text-decoration: none;
@@ -49,32 +35,31 @@ html, body {
 }
 
 #left-margin {
-	left: 0;
 	margin-left: 10px;
 	text-align: left;
+	left: 0;
 }
 
 #right-margin {
-	right: 0;
 	margin-right: 10px;
 	text-align: right;
+	right: 0;
 }
 
 #page {
-	border-left: 6px solid grey;
-	border-right: 6px solid grey;
-	padding: 5px;
 	width: 60% ;
-	box-sizing: border-box;
 	margin: 0 auto;
-	background-color: white;
+	padding: 5px;
+	box-sizing: border-box;
+	border-left: 6px solid lightgrey;
+	border-right: 6px solid lightgrey;
 }
 
 .page-title {
 	margin-bottom: 20px;
-	text-align: center;
-	margin-right: auto;
 	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
 
 .page-body {
@@ -89,23 +74,21 @@ html, body {
 	background-color: lightgrey;
 }
 
-.project-entry + .project-entry {
-	clear: left;
+.project-entry {
+	width: 90%;
+      margin: 10px auto 10px auto;
+	padding: 10px;
+	box-sizing: border-box;
+	border: 2px solid grey;
+      text-align: center;
+}
+.project-entry a {
+      width: 100%;
 }
 .project-entry p {
-	padding-left: 10px;
-}
-
-.repo-card {
-	float: left;
-	width: 30%;
-	padding: 10px;
-	border: 2px solid grey;
-	box-sizing: border-box;
-}
-.repo-card a {
-	text-decoration: none;
+      text-align: left;
 }
 
 .important {
 	background-color: lightcoral;
+}
