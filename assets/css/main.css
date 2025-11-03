@@ -11,11 +11,11 @@ html {
   width: 20%;
   padding: 5px;
   position: fixed;
+}
 
-  ul {
-    padding: 5px;
-    list-style-type: none;
-  }
+#left-margin ul, #right-margin ul {
+  padding: 5px;
+  list-style-type: none;
 }
 
 #left-margin {
@@ -32,28 +32,25 @@ html {
 
 #page {
   height: 100%;
-  width: 40% ;
+  max-width: 40%;
+  min-width: 300px;
   margin: 0 auto;
   padding: 5px;
+}
 
-  table {
-    border-collapse: collapse;
-    border: 2px solid grey;
-  }
+#page table, #page td, #page th {
+  border-collapse: collapse;
+  border: 2px solid grey;
+  padding: 5px;
+}
 
-  td, th {
-    border: 2px solid grey;
-    padding: 5px;
-  }
-
-  code {
-    /*
-     "fix my font size" is not a font family.
-      See https://mkhl.codeberg.page/monospace-font-size, he (mkhl) explains it
-      really well, in my opinion.
-    */
-     font-family: "fix my font size", monospace;
-   }
+#page code {
+  /*
+    "fix my font size" is not a font family.
+    See https://mkhl.codeberg.page/monospace-font-size, he (mkhl) explains it
+    really well, in my opinion.
+  */
+  font-family: "fix my font size", monospace;
 }
 
 .page-title {
@@ -83,12 +80,21 @@ html {
   box-sizing: border-box;
   border: 2px solid grey;
   text-align: center;
+}
 
-  p {
-    text-align: left;
-  }
+.project-entry p {
+  text-align: left;
 }
 
 .important {
   background-color: lightcoral;
+}
+
+@media screen and (max-width: 540px) {
+  html {
+    font-size: 100%;
+  }
+  #left-margin, #right-margin {
+    display: none;
+  }
 }
