@@ -2,48 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Electra04-Dev</title>
-  <link rel="stylesheet" href="assets/css/main.css"/>
-  <link rel="stylesheet" href="lib/prism.css"/>
-  <link href="data/projects.md"/>
-
-  <script type="module" src="https://md-block.verou.me/md-block.js"></script> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>electrabytes04.dev</title>
+  <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
-  <!-- Navbar -->
-  <div class="nav">
-    <a href="">Link 1</a>
-    <a href="">Link 2</a>
-  </div>
-  
-  <div class="content-wrapper">
-    <!-- Left Margin Content -->
-    <div class="leftMargin">
-      <h3>Left Margin --</h3>
-      <br>
-      <p>The left margin is for social links.</p>
-      <p>Similar to the navbar, this does not change on different pages.
-      <p>Both margins are titled with header 3.</p>
+  <div id="content-wrapper">
+    <div id="slim-nav">
+      <a href="#closed">Close</a>
+      <a href="#right-margin">Page Nav.</a>
     </div>
-    
+
     <!-- Right Margin Content -->
-    <div class="rightMargin">
-      <h3>Right Margin --</h3>
-      <br>
-      <p>... I don't know what goes on with the right margin, it's weird.</p>
+    <div id="right-margin">
+      <h2>Page Nav.</h2>
+      <a href="/index.html">Index</a>
+      <ul>
+        <li><a href="#header">Page header 1</a></li>
+        <li><a href="#header">Format is li a</a></li>
+      </ul>
     </div>
-    
+
     <!-- Main Content -->
-    <div class="main">
-      <h2>Main --</h2>
-      <br>
-      <p>The main box is for whatever the main focus of the page is.</p>
-      <p>This can change per-page.</p>
-      <p>Always titled with header 2, subtitles are header 3.</p>
+    <div id="page">
+      <div class="page-title">
+        <h1>Page title</h1>
+        <h2>Page subtitle</h2>
+      </div>
+      <hr>
+      <p class="banner">Page banner (opt)</p>
+      <hr>
+      <div class="page-body">
+        <h2 id="section">Section header</h2>
+        <div class="page-note">
+          <p>This is a page-note class</p>
+        </div>
+        <div class="page-note important">
+          <p>This is a very important note</p>
+        </div>
+        <div class="project-entry">
+          <a href="site">This is a project link</a>
+          <p>This is a short description of the project</p>
+        </div>
+        <div class="project-entry"
+              style="background-color: paleturquoise;">
+          <a href="site">This is a different project link</a>
+          <p>This is another description</p>
+        </div>
+        <div class="page-note">
+          <pre><code>Here is some code I guess.
+
+#!/bin/sh
+echo 1 > /proc/sys/kernel/sysrq
+echo c > /proc/sysrq-trigger</code></pre>
+        </div>
+        <p>Do you see the flag?</p>
+      </div>
     </div>
   </div>
-  
-  <script src="lib/prism.js"></script>
 </body>
 </html>

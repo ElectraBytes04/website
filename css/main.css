@@ -3,8 +3,13 @@ html {
   padding: 0;
   display: flex;
   flex-direction: column;
-  font-size: 110%;
+  font-size: 100%;
   background-color: white;
+}
+
+ul {
+  padding: 5px;
+  list-style-type: none;
 }
 
 #slim-nav {
@@ -23,22 +28,10 @@ html {
   justify-content: space-between;
 }
 
-
-#left-margin, #right-margin {
+#right-margin {
   width: 20%;
   padding: 5px;
   position: fixed;
-}
-
-#left-margin ul, #right-margin ul {
-  padding: 5px;
-  list-style-type: none;
-}
-
-#left-margin {
-  margin-left: 10px;
-  text-align: left;
-  left: 0;
 }
 
 #right-margin {
@@ -61,13 +54,17 @@ html {
   padding: 5px;
 }
 
-#page code {
+code {
   /*
     "fix my font size" is not a font family.
     See https://mkhl.codeberg.page/monospace-font-size, he (mkhl) explains it
-    really well, in my opinion.
+    really well.
   */
   font-family: "fix my font size", monospace;
+}
+
+.banner {
+  text-align: center;
 }
 
 .page-title {
@@ -87,7 +84,7 @@ html {
   padding: 10px;
   box-sizing: border-box;
   border: 2px solid grey;
-  background-color: lightgrey;
+  background-color: #e9e9e9;
 }
 
 .project-entry {
@@ -104,6 +101,7 @@ html {
 }
 
 .important {
+  border: 2px solid maroon;
   background-color: lightcoral;
 }
 
@@ -112,7 +110,7 @@ html {
     font-size: 100%;
   }
 
-  #left-margin, #right-margin {
+  #right-margin {
     display: none;
     width: 80%;
     background-color: white;
@@ -122,7 +120,7 @@ html {
     display: flex;
   }
 
-  #left-margin:target, #right-margin:target {
+  #right-margin:target {
     display: block;
   }
 }
