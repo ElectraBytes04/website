@@ -3,6 +3,7 @@
 WPATH="${1:-$PWD/pages}"
 
 RSTSRC="$WPATH/rstsrc"
+indent="          "
 
 if [ -z "$EDITOR" ]
 then
@@ -20,7 +21,6 @@ do
 
       titleref=`sed -n '2p' "$rstfile"`
       indexref='<li><a href="/pages/'"${base}"'.html">'"${titleref}"'</a></li>'
-      indent="          "
 
       printf 'Converting file: %s to HTML using Pandoc ...\n' "$rstfile"
       if ! pandoc --template="$PWD/tool/rst.htmt" --toc -s \
@@ -74,14 +74,14 @@ make any changes to files that you want before continuing.
 The next step will commit your changes, and you will be asked to push.\
 \n\nENTER TO CONTINUE\n\n"
 
-read _
+read etc
 
 printf "Staging changes ...\n"
 git add -A
 
 printf "Committing changes ...\n"
 printf "Commit message is date, with format YYYY-MM-DD\n"
-date=`date +'%Y-%m-%d'`
-git commit -m "$date"
+commitdate=`date +'%Y-%m-%d'`
+git commit -m "$commitdate"
 
-printf "The script will stop here. Push manually if you wish."
+printf "The script will stop here. Push manually if you wish.\n"
