@@ -9,7 +9,6 @@ Yield: ~36 Cookies
 
 Ingredients
 ```````````
-
 - 3 Bananas
 - 1/2 Cup Brown Sugar
 - 1/4 Cup Sugar

@@ -1,8 +1,8 @@
 #!/bin/sh
 
-WPATH="${1:-$PWD/pages}"
+PAGEPATH="${1:-$PWD/pages}"
 
-RSTSRC="$WPATH/rstsrc"
+RSTSRC="$PAGEPATH/rstsrc"
 indent="          "
 
 if [ -z "$EDITOR" ]
@@ -11,16 +11,19 @@ then
       EDITOR=vi
 fi
 
-for rstfile in "$RSTSRC"/*.rst
+find "$RSTSRC" -name "*.rst" | while read -r rstfile
 do
-      [ -e "$rstfile" ] || continue
+      # Make file path relative so it can be manipulated easier:
+      relrst="${rstfile#$RSTSRC/}"
+      relhtml="${relrst%.*}.html"
 
-      base=`basename "$rstfile" .rst`
-      # htmlfile uses the full path:
-      htmlfile="$WPATH/${base}.html"
+      htmlfile="$PAGEPATH/$relhtml"
+
+      datedir=`dirname $htmlfile`
+      [ ! -d "$datedir" ] && mkdir -p "$datedir"
 
       titleref=`sed -n '2p' "$rstfile"`
-      indexref='<li><a href="/pages/'"${base}"'.html">'"${titleref}"'</a></li>'
+      indexref='<li><a href="/pages/'"${relhtml}"'">'"${titleref}"'</a></li>'
 
       printf 'Converting file: %s to HTML using Pandoc ...\n' "$rstfile"
       if ! pandoc --template="$PWD/tool/rst.htmt" --toc -s \
