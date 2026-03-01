@@ -76,8 +76,9 @@ do
       printf 'Adding file reference to index.html ...\n\n'
       if ! grep -qF "${relhtml}" index.html
       then
-            sed '/<h2 id="pages"><ul>/a\'"${indent}${indexref}" index.html \
-                  > index.tmp && mv index.tmp index.html
+            sedcmd='/<h2 id="pages">Other Pages<\/h2><ul>/a\'"$indent$indexref"
+
+            sed "$sedcmd"index.html > index.tmp && mv index.tmp index.html
       fi
 done
 
