@@ -74,25 +74,40 @@
         execute. Installed executables have 750. This does not this does
         not affect user configs.</li>
         </ul>
-        <dl>
-        <dt>Infos file::</dt>
-        <dd>
-        <p># %slate/infos: Package information # # package version tier
-        scope { # runtime_dependency version # runtime_dependency
-        version # }</p>
-        </dd>
-        <dt>Example recipe file for a tier 1 package::</dt>
-        <dd>
-        <p>NAME="BusyBox 1.36.1"
-        SOURCE="https://busybox.net/downloads/busybox-1.36.1.tar.bz2"</p>
-        <p>TIER=1 SCOPE="public"</p>
-        <p>BDEPS="musl GCC Make"</p>
-        <p>patch() { return 0 }</p>
-        <p>build() { make defconfig sed -i 's/^CONFIG_TC/#CONFIG_TC/'
-        .config make return 0 }</p>
-        <p>install() { make install return 0 }</p>
-        </dd>
-        </dl>
+        <p>Infos file:</p>
+        <pre><code># %slate/infos: Package information
+#
+# package version tier scope {
+# runtime_dependency version
+# runtime_dependency version
+# }</code></pre>
+        <p>Example recipe file for a tier 1 package:</p>
+        <pre><code>NAME=&quot;BusyBox 1.36.1&quot;
+SOURCE=&quot;https://busybox.net/downloads/busybox-1.36.1.tar.bz2&quot;
+
+TIER=1
+SCOPE=&quot;public&quot;
+
+BDEPS=&quot;musl GCC Make&quot;
+
+patch()
+{
+      return 0
+}
+
+build()
+{
+      make defconfig
+      sed -i &#39;s/^CONFIG_TC/#CONFIG_TC/&#39; .config
+      make
+      return 0
+}
+
+install()
+{
+      make install
+      return 0
+}</code></pre>
         <p>If SLATE cannot find recipe files corresponding to the BDEPS
         / RDEPS, it will stop and ask the user if the dependencies are
         already installed. If the user says no, then SLATE will request

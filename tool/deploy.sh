@@ -1,4 +1,11 @@
 #!/bin/sh
+# deploy.sh:
+# rST to HTML conversion and deployment script for my website, so I don't have
+# to directly write html.
+#
+# Author : ElectraBytes04
+# Date : 2026-02-28
+# License : GNU GPL v3; see COPYING
 
 PAGEPATH="${1:-$PWD/pages}"
 
@@ -11,32 +18,34 @@ then
       EDITOR=vi
 fi
 
-find "$RSTSRC" -name "*.rst" | while read -r rstfile
+for rstfile in "${RSTSRC}"/*/*/*.rst
 do
+      [ -e "$rstfile" ] || continue
+
       # Make file path relative so it can be manipulated easier:
       relrst="${rstfile#$RSTSRC/}"
       relhtml="${relrst%.*}.html"
 
-      htmlfile="$PAGEPATH/$relhtml"
+      abshtml="$PAGEPATH/$relhtml"
 
-      datedir=`dirname $htmlfile`
-      [ ! -d "$datedir" ] && mkdir -p "$datedir"
+      datedir=`dirname "$abshtml"`
+      mkdir -p "$datedir"
 
       titleref=`sed -n '2p' "$rstfile"`
       indexref='<li><a href="/pages/'"${relhtml}"'">'"${titleref}"'</a></li>'
 
       printf 'Converting file: %s to HTML using Pandoc ...\n' "$rstfile"
       if ! pandoc --template="$PWD/tool/rst.htmt" --toc -s \
-            "$rstfile" -o "$htmlfile"
+            "$rstfile" -o "$abshtml"
       then
             printf 'Pandoc failed for file: %s. Skipping ...\n' "$rstfile"
             continue
       fi
 
       # Preview file
-      printf 'Previewing file: %s in a web browser ...\n' "$htmlfile"
+      printf 'Previewing file: %s in a web browser ...\n' "$abshtml"
       printf 'You may need to preview the file manually if it fails.\n'
-      python3 -m webbrowser "$htmlfile" >/dev/null 2>&1 &
+      python3 -m webbrowser "$abshtml" >/dev/null 2>&1 &
 
       printf 'Are the results good? [Y/n] '
       read -r cgood || cgood=
@@ -53,7 +62,7 @@ do
 
             * )
                   printf 'Ok. Starting $EDITOR: %s ...\n\n' "$EDITOR"
-                  "$EDITOR" "$htmlfile"
+                  "$EDITOR" "$abshtml"
             ;;
             esac
       ;;
@@ -65,7 +74,7 @@ do
 
       # Adding to index.html
       printf 'Adding file reference to index.html ...\n\n'
-      if ! grep -qF "${base}.html" index.html
+      if ! grep -qF "${relhtml}" index.html
       then
             sed '/<h2 id="pages"><ul>/a\'"${indent}${indexref}" index.html \
                   > index.tmp && mv index.tmp index.html

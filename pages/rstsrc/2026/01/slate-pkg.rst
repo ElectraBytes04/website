@@ -55,6 +55,7 @@ Scopes:
   executables have 750. This does not this does not affect user configs.
 
 Infos file::
+
       # %slate/infos: Package information
       #
       # package version tier scope {
@@ -63,6 +64,7 @@ Infos file::
       # }
 
 Example recipe file for a tier 1 package::
+
       NAME="BusyBox 1.36.1"
       SOURCE="https://busybox.net/downloads/busybox-1.36.1.tar.bz2"
 
