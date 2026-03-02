@@ -82,6 +82,7 @@ pre, .page-note {
   padding: 10px;
   box-sizing: border-box;
   border: 2px solid grey;
+  overflow-x: auto;
   background-color: #e9e9e9;
 }
 
