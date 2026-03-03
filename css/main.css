@@ -31,7 +31,6 @@ html {
 }
 
 #right-margin ul, .unbullet {
-  left-padding: 5px;
   list-style-type: none;
 }
 
