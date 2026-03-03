@@ -35,8 +35,8 @@ do
       indexref='<li><a href="/pages/'"${relhtml}"'">'"${titleref}"'</a></li>'
 
       printf 'Converting file: %s to HTML using Pandoc ...\n' "$rstfile"
-      if ! pandoc --template="$PWD/tool/rst.htmt" --toc -s \
-            "$rstfile" -o "$abshtml"
+      if ! pandoc --template="$PWD/tool/rst.htmt" --shift-heading-level-by=1 \
+            --toc -s "$rstfile" -o "$abshtml"
       then
             printf 'Pandoc failed for file: %s. Skipping ...\n' "$rstfile"
             continue
