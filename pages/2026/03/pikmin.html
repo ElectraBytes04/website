@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>electrabytes04.dev</title>
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+  <div id="content-wrapper">
+    <div id="slim-nav">
+      <a href="#closed">Close</a>
+      <a href="#right-margin">Page Nav.</a>
+    </div>
+
+    <!-- Right Margin Content -->
+    <div id="right-margin">
+      <h2>Page Nav.</h2>
+      <a href="/index.html">Index</a>
+      <ul>
+      <li><a href="#roadmap" id="toc-roadmap">Roadmap</a></li>
+      <li><a href="#core-game-loop" id="toc-core-game-loop">Core Game
+      Loop</a></li>
+      <li><a href="#pikmin" id="toc-pikmin">Pikmin</a></li>
+      <li><a href="#ai-explorer-crew" id="toc-ai-explorer-crew">AI
+      Explorer Crew</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div id="page">
+      <h1>Pikmin Simulation</h1>
+      <hr>
+      <div class="sub">
+      <p>Godot 4.6 / C#</p>
+      </div>
+      <hr />
+      <p>Goal: A self-running Pikmin-like screensaver that loops
+      indefinitely where an AI explorer collects objectives under
+      constraints.</p>
+      <h2 id="roadmap">Roadmap</h2>
+      <ul>
+      <li>2-Mode Camera: 3/4 @ Normal zoom, Eagle Eye @ Far zoom.</li>
+      <li>Pik-Boids: Boids-like system for Pikmin movement.</li>
+      <li>Basic Enemy Movement: Enemies moving in basic patterns.</li>
+      <li>User-made Areas: Custom-made areas as .TSCN files.</li>
+      <li>Objectives: Things like fruit, ship parts, or treasure
+      scattered around the area. New Pikmin sprouts also count as
+      objectives.</li>
+      <li>Pikmin Collecting Objectives: Basic pathfinding from objective
+      to dropoff.</li>
+      <li>Constraints: Time limits, Pikmin death limits, etc.</li>
+      <li>Procedural Areas: Areas can be auto-generated.</li>
+      <li>AI-Controlled Explorer Crew: Explorers will be controlled by a
+      state machine/pathfinding AI. Its goal is to collect objectives
+      while being within the constraints.</li>
+      <li>Dandori / Battle Mode: Button that drops the player into the
+      current run. The level resets, player competes against the AI to
+      collect the most objectives before sunset. Option to not reset the
+      level is available.</li>
+      </ul>
+      <h2 id="core-game-loop">Core Game Loop</h2>
+      <ul>
+      <li>Create new level.</li>
+      <li>Scatter objectives around the level.</li>
+      <li>Select constraints for the run.</li>
+      <li>Spawn AI explorer crew + Onion(s).</li>
+      <li>AI plans a route for the day, executes.</li>
+      <li>Regenerate and repeat on day end.</li>
+      </ul>
+      <h2 id="pikmin">Pikmin</h2>
+      <p>Standard Boids-like movement, however cohesion is replaced with
+      leader-following.</p>
+      <ul>
+      <li>Pikmin have differing speeds from leaf to bud to flower. They
+      will attempt to align as best as they can despite this.</li>
+      <li>If the leader stops, then all Pikmin will stop with a delay
+      that grows with distance.</li>
+      <li>When dismissed, all Pikmin in the dismissed group will move
+      away from the leader a fixed distance.</li>
+      <li>Pikmin will abandon their task to attack certain enemies.</li>
+      <li>Whistling will assign the whistler as the Pikmin's new leader
+      (they will not swap teams from AI to player, however).</li>
+      <li>Ownership may be temporarily overridden by certain
+      enemies.</li>
+      </ul>
+      <h2 id="ai-explorer-crew">AI Explorer Crew</h2>
+      <ul>
+      <li>State machines and pathfinding. No machine learning.</li>
+      <li>Plans a full route at day start. Deviates based on cost/reward
+      checks.</li>
+      <li>Above two are constraint-driven ("Minimise Pikmin Loss" =
+      avoid enemy-dense zones unless required, "Collect Everything At
+      All Costs" = overly aggressive speed optimisation)</li>
+      <li>The player is treated as an enemy during Battle modes, using
+      the same "fight this enemy?" decision logic (based on risk of
+      losing Pikmin vs. reward of killing the enemies). When attacking
+      the player, the AI will send pikmin to swarm it.</li>
+      <li>May steal the player's collected objectives during Battle
+      modes. This will use the same cost/reward checks that the initial
+      planning uses.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

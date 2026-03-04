@@ -48,6 +48,19 @@ html {
   padding: 5px;
 }
 
+#page h1, .sub {
+  text-align: center;
+}
+
+pre, .page-note {
+  margin: 10px auto 10px auto;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 2px solid grey;
+  background-color: #e9e9e9;
+}
+pre { overflow-x: auto; }
+
 code {
   /*
     "fix my font size" is not a font family.
@@ -58,30 +71,7 @@ code {
   background-color: #e9e9e9;
 }
 
-.banner {
-  text-align: center;
-}
-
-.page-title {
-  margin-bottom: 20px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-.page-body {
-  padding: 10px;
-  text-align: left;
-}
-
-pre, .page-note {
-  margin: 10px auto 10px auto;
-  padding: 10px;
-  box-sizing: border-box;
-  border: 2px solid grey;
-  overflow-x: auto;
-  background-color: #e9e9e9;
-}
+ul li { padding: 2.5px 0px }
 
 .project-entry {
   max-width: 90%;

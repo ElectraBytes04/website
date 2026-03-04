@@ -1,11 +1,13 @@
 ======================
 Banana Oatmeal Cookies
 ======================
+.. class:: sub
+
 2025-12-21
 
-Yield: ~36 Cookies
-
 ------
+
+Yield: ~36 Cookies
 
 Ingredients
 ```````````

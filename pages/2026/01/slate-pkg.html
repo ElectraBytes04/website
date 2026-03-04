@@ -26,31 +26,26 @@
 
     <!-- Main Content -->
     <div id="page">
-      <div class="page-title">
-        <h1>SLATE Package Manager</h1>
-        
-      </div>
+      <h1>SLATE Package Manager</h1>
       <hr>
-      
-      <div class="page-body">
-        <p>2026-01-27</p>
-        <hr />
-        <pre><code>/~~~\     /         /~~~\     /~~~\     /~~~\
+      <p>2026-01-27</p>
+      <hr />
+      <pre><code>/~~~\     /         /~~~\     /~~~\     /~~~\
 |         |         |   |       |       |
 \\\\\     |         &gt;===&lt;       |       &gt;===
     |     |         |   |       |       |
 \~~~/     \~~~/     \   /       |       \~~~/</code></pre>
-        <p>SLATE is a package manager that allows users to install
-        packages without requiring root privilege.</p>
-        <h2 id="environment">Environment</h2>
-        <p><code>$SLATE_DATA_DIR</code> (%slate/):
-        <code>/var/slate/</code> for system and
-        <code>$HOME/.local/slate/</code> for users by default.</p>
-        <p><code>$SLATE_CONFIG_DIR</code> (%conf/):
-        <code>/etc/slate/</code> for system and
-        <code>$HOME/.config/slate/</code> for users by default.</p>
-        <p>%slate/ hierarchy:</p>
-        <pre><code>|-&gt; ./book/ (recipe files (.slate or .rec) are stored here.)
+      <p>SLATE is a package manager that allows users to install
+      packages without requiring root privilege.</p>
+      <h2 id="environment">Environment</h2>
+      <p><code>$SLATE_DATA_DIR</code> (%slate/):
+      <code>/var/slate/</code> for system and
+      <code>$HOME/.local/slate/</code> for users by default.</p>
+      <p><code>$SLATE_CONFIG_DIR</code> (%conf/):
+      <code>/etc/slate/</code> for system and
+      <code>$HOME/.config/slate/</code> for users by default.</p>
+      <p>%slate/ hierarchy:</p>
+      <pre><code>|-&gt; ./book/ (recipe files (.slate or .rec) are stored here.)
 | &#39;-&gt; ./example.slate (file showing examples of recipes.)
 |
 |-&gt; ./install/ (packages are unpacked here, built, and then cleared out.)
@@ -59,30 +54,30 @@
 |
 |-&gt; ./infos (file containing package metadata.)
 &#39;-&gt; ./lock (lock file)</code></pre>
-        <h2 id="system">System</h2>
-        <p>Tiers:</p>
-        <ul>
-        <li>1: (Native) Built and installed on host.</li>
-        <li>2: (Hybrid) Built in container, installed on host.</li>
-        <li>3: (Container) Built and installed in container.</li>
-        </ul>
-        <p>Scopes:</p>
-        <ul>
-        <li>public: Everyone (with access to parent directory) can see
-        and execute. Installed executables have 755.</li>
-        <li>private: Only owner and members of owner's group can
-        execute. Installed executables have 750. This does not this does
-        not affect user configs.</li>
-        </ul>
-        <p>Infos file:</p>
-        <pre><code># %slate/infos: Package information
+      <h2 id="system">System</h2>
+      <p>Tiers:</p>
+      <ul>
+      <li>1: (Native) Built and installed on host.</li>
+      <li>2: (Hybrid) Built in container, installed on host.</li>
+      <li>3: (Container) Built and installed in container.</li>
+      </ul>
+      <p>Scopes:</p>
+      <ul>
+      <li>public: Everyone (with access to parent directory) can see and
+      execute. Installed executables have 755.</li>
+      <li>private: Only owner and members of owner's group can execute.
+      Installed executables have 750. This does not this does not affect
+      user configs.</li>
+      </ul>
+      <p>Infos file:</p>
+      <pre><code># %slate/infos: Package information
 #
 # package version tier scope {
 # runtime_dependency version
 # runtime_dependency version
 # }</code></pre>
-        <p>Example recipe file for a tier 1 package:</p>
-        <pre><code>NAME=&quot;BusyBox 1.36.1&quot;
+      <p>Example recipe file for a tier 1 package:</p>
+      <pre><code>NAME=&quot;BusyBox 1.36.1&quot;
 SOURCE=&quot;https://busybox.net/downloads/busybox-1.36.1.tar.bz2&quot;
 
 TIER=1
@@ -108,12 +103,11 @@ install()
       make install
       return 0
 }</code></pre>
-        <p>If SLATE cannot find recipe files corresponding to the BDEPS
-        / RDEPS, it will stop and ask the user if the dependencies are
-        already installed. If the user says no, then SLATE will request
-        that the user provide recipe files or install the dependencies
-        manually.</p>
-      </div>
+      <p>If SLATE cannot find recipe files corresponding to the BDEPS /
+      RDEPS, it will stop and ask the user if the dependencies are
+      already installed. If the user says no, then SLATE will request
+      that the user provide recipe files or install the dependencies
+      manually.</p>
     </div>
   </div>
 </body>
