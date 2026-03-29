@@ -76,7 +76,7 @@ do
       printf 'Adding file reference to index.html ...\n\n'
       if ! grep -qF "${relhtml}" index.html
       then
-            htmlline='<h2 id="pages">Other Pages<\/h2><ul class="unbullet">'
+            htmlline='<h2 id="pages">Pages<\/h2><ul class="unbullet">'
 
             sed "/$htmlline/a\\
 $indent$indexref" index.html > index.tmp && mv index.tmp index.html
