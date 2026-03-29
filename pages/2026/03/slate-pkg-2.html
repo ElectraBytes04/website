@@ -18,21 +18,17 @@
       <h2>Page Nav.</h2>
       <a href="/index.html">Index</a>
       <ul>
-      <li><a href="#synopsis"
-      id="toc-synopsis"><em>Synopsis</em></a></li>
-      <li><a href="#options" id="toc-options"><em>Options</em></a></li>
-      <li><a href="#operands"
-      id="toc-operands"><em>Operands</em></a></li>
-      <li><a href="#input-files" id="toc-input-files"><em>Input
-      Files</em></a></li>
+      <li><a href="#synopsis" id="toc-synopsis">Synopsis</a></li>
+      <li><a href="#options" id="toc-options">Options</a></li>
+      <li><a href="#operands" id="toc-operands">Operands</a></li>
+      <li><a href="#input-files" id="toc-input-files">Input
+      Files</a></li>
       <li><a href="#environment-variables"
-      id="toc-environment-variables"><em>Environment
-      Variables</em></a></li>
+      id="toc-environment-variables">Environment Variables</a></li>
       <li><a href="#extended-description"
-      id="toc-extended-description"><em>Extended
-      Description</em></a></li>
-      <li><a href="#exit-status" id="toc-exit-status"><em>Exit
-      Status</em></a></li>
+      id="toc-extended-description">Extended Description</a></li>
+      <li><a href="#exit-status" id="toc-exit-status">Exit
+      Status</a></li>
       </ul>
     </div>
 
@@ -53,9 +49,9 @@
 STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       <p>SLATE is a package manager that allows users to install
       packages without requiring root privilege.</p>
-      <h2 id="synopsis"><em>Synopsis</em></h2>
+      <h2 id="synopsis">Synopsis</h2>
       <p><code>slate [-n] [-i install_to] package ...</code></p>
-      <h2 id="options"><em>Options</em></h2>
+      <h2 id="options">Options</h2>
       <p>The following options shall be supported:</p>
       <dl>
       <dt><code>-n</code></dt>
@@ -75,17 +71,17 @@ STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       etc.</p>
       </dd>
       </dl>
-      <h2 id="operands"><em>Operands</em></h2>
+      <h2 id="operands">Operands</h2>
       <p>The following operand shall be supported: <code>package</code>
       The package name to be installed. If <code>package</code> is '-'
       or empty, then <code>slate</code> will accept package names from
       the standard input at that point in the sequence.</p>
-      <h2 id="input-files"><em>Input Files</em></h2>
+      <h2 id="input-files">Input Files</h2>
       <p>The input file(s) shall be shell script(s). The input file(s)
       should contain (at least) the variables: <code>VERSION</code>,
       <code>SOURCE</code>, <code>PRIVATE</code>, <code>BDEPS</code>,
       <code>RDEPS</code>.</p>
-      <h2 id="environment-variables"><em>Environment Variables</em></h2>
+      <h2 id="environment-variables">Environment Variables</h2>
       <p>The following environment variable shall affect the execution
       of <code>slate</code>: <code>SLATE_DATA_DIR</code> Provides the
       path to the folder where <code>slate</code> will find recipes, the
@@ -98,7 +94,7 @@ STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       <code>slate</code> will treat provided package archives as
       directories. This environment variable should be in the form:</p>
       <pre><code>key:value,key:value,key:value,...</code></pre>
-      <h2 id="extended-description"><em>Extended Description</em></h2>
+      <h2 id="extended-description">Extended Description</h2>
       <dl>
       <dt><strong>The Data Directory</strong></dt>
       <dd>
@@ -182,15 +178,14 @@ install()
       (<code>patch()</code>, <code>build()</code>,
       <code>install()</code>) in any given recipe and shall only execute
       them in that order.</p>
-      <p>If <code>BDEPS</code> and/or <code>RDEPS</code> <em>are</em>
-      set, and recipe files corresponding to those packages do not
-      exist, then a prompt will be sent to STDOUT, asking the user if
-      the dependencies are already installed. If the user responds no,
-      then the user will be requested to provide the relevant recipe
-      files or to install the dependencies manually. This behaviour is
-      affected by the <code>-n</code> option, where no prompt will be
-      sent to STDOUT and the current package install shall be
-      halted.</p>
+      <p>If <code>BDEPS</code> and/or <code>RDEPS</code> are set, and
+      recipe files corresponding to those packages do not exist, then a
+      prompt will be sent to STDOUT, asking the user if the dependencies
+      are already installed. If the user responds no, then the user will
+      be requested to provide the relevant recipe files or to install
+      the dependencies manually. This behaviour is affected by the
+      <code>-n</code> option, where no prompt will be sent to STDOUT and
+      the current package install shall be halted.</p>
       <p>To verify dependency versions, a simple check akin to
       <code>a == b</code> shall be used.</p>
       <p>Circular dependencies shall be detected by keeping a running
@@ -205,7 +200,7 @@ install()
       <pre><code>https:wget,xz:xz,tar:tar</code></pre>
       </dd>
       </dl>
-      <h2 id="exit-status"><em>Exit Status</em></h2>
+      <h2 id="exit-status">Exit Status</h2>
       <p>The following exit values shall be returned:</p>
       <dl>
       <dt><code>0</code></dt>

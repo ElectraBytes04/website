@@ -20,13 +20,13 @@ SLATE Package Manager
 SLATE is a package manager that allows users to install packages without
 requiring root privilege.
 
-*Synopsis*
-``````````
+Synopsis
+````````
 ``slate [-n] [-i install_to] package ...``
 
 
-*Options*
-`````````
+Options
+```````
 The following options shall be supported:
 
 ``-n``
@@ -41,8 +41,8 @@ The following options shall be supported:
       files will go to the root-level (``/``), in ``/bin/``, ``/lib/``, etc.
 
 
-*Operands*
-``````````
+Operands
+````````
 The following operand shall be supported:
 ``package``
       The package name to be installed. If ``package`` is '-' or empty, then
@@ -50,15 +50,15 @@ The following operand shall be supported:
       in the sequence.
 
 
-*Input Files*
-`````````````
+Input Files
+```````````
 The input file(s) shall be shell script(s). The input file(s) should contain (at
 least) the variables: ``VERSION``, ``SOURCE``, ``PRIVATE``, ``BDEPS``,
 ``RDEPS``.
 
 
-*Environment Variables*
-```````````````````````
+Environment Variables
+`````````````````````
 The following environment variable shall affect the execution of 
 ``slate``:
 ``SLATE_DATA_DIR``
@@ -75,8 +75,8 @@ The following environment variable shall affect the execution of
             key:value,key:value,key:value,...
 
 
-*Extended Description*
-``````````````````````
+Extended Description
+````````````````````
 
 **The Data Directory**
       ``SLATE_DATA_DIR`` must contain at least the following directories::
@@ -156,7 +156,7 @@ The following environment variable shall affect the execution of
       ``build()``, ``install()``) in any given recipe and shall only execute
       them in that order.
 
-      If ``BDEPS`` and/or ``RDEPS`` *are* set, and recipe files corresponding to
+      If ``BDEPS`` and/or ``RDEPS`` are set, and recipe files corresponding to
       those packages do not exist, then a prompt will be sent to STDOUT, asking
       the user if the dependencies are already installed. If the user responds
       no, then the user will be requested to provide the relevant recipe files
@@ -179,8 +179,8 @@ The following environment variable shall affect the execution of
 
             https:wget,xz:xz,tar:tar
 
-*Exit Status*
-`````````````
+Exit Status
+```````````
 The following exit values shall be returned:
 
 ``0``
