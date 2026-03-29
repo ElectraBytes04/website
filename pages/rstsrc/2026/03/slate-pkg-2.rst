@@ -20,6 +20,9 @@ SLATE Package Manager
 SLATE is a package manager that allows users to install packages without
 requiring root privilege.
 
+SLATE is intended to be small, and most gaps in the spec are because I am not
+confident in my own ability to solve them.
+
 Synopsis
 ````````
 ``slate [-n] [-i install_to] package ...``
@@ -30,7 +33,7 @@ Options
 The following options shall be supported:
 
 ``-n``
-      Supress interactive prompts.
+      Suppress interactive prompts.
 
 ``-i install_to``
       The final destination of installed files will be ``install_to``. If not
@@ -46,9 +49,10 @@ Operands
 The following operand shall be supported:
 
 ``package``
-      The package name to be installed. If ``package`` is '-' or empty, then
-      ``slate`` will accept package names from the standard input at that point
-      in the sequence.
+      The package name to be installed. If ``package`` is '-' or an empty
+      string, then ``slate`` will accept package names from the standard input
+      at that point in the sequence. A package name must match a ``.slate`` file
+      in ``SLATE_DATA_DIR/book``, without the ``.slate`` extension.
 
 
 Input Files
@@ -106,9 +110,14 @@ Extended Description
             runtime dependency 3=runtime dependency 3's version
             ...
 
+      A package's installed files shall be symlinked to the final destination
+      (``install_to/(bin/, lib/, etc.)``, ``$HOME/.local/(bin/, lib/, etc.)``,
+      ``/(bin/, lib/, etc.)``) from ``db/{package}``.
+
       ``install`` is simply a scratchpad for installing packages. Package
       archives are moved here before operation, installed to ``db/{package}``,
-      and then cleared out.
+      and then cleared out. Recipe functions are executed on a package's source
+      tree here.
 
       During operation, ``slate`` shall create a lock file (named ``lock``) in
       ``SLATE_DATA_DIR``. This file is deleted when ``slate`` exits. If
@@ -116,6 +125,9 @@ Extended Description
       do nothing and exit with ``2``.
 
 **Recipe Files**
+      It is important that recipes are easy to find and edit. A user should be
+      able to edit a recipe to fit their system when needed.
+
       A given recipe file should contain at least the variables: ``VERSION``,
       ``SOURCE``, ``PRIVATE``, ``BDEPS``, ``RDEPS``. They are not required,
       however, as they will default to empty strings if not set, but the
@@ -125,9 +137,9 @@ Extended Description
       - ``VERSION``: the version of this package.
       - ``SOURCE``: where this package's source can be found on the system
         (absolute path), or a remote URL pointing to this package's source.
-      - ``PRIVATE``: if 1, this package's installed files will be mode 700
-        (``rwx --- ---``). Else, this package's installed files will be whatever
-        the ``umask`` is.
+      - ``PRIVATE``: if 1, ``umask`` shall be set to mode 700 during package
+        installation (``rwx --- ---``). Else, this package's installed files
+        will be whatever the ``umask`` is when ``slate`` is executed.
       - ``BDEPS``: a space-separated list of package names that this package
         relies on to be installed properly. Dependency versions should also be
         specified with the form ``package=version``.
@@ -159,12 +171,16 @@ Extended Description
       them in that order.
 
       If ``BDEPS`` and/or ``RDEPS`` are set, and recipe files corresponding to
-      those packages do not exist, then a prompt will be sent to STDOUT, asking
-      the user if the dependencies are already installed. If the user responds
-      no, then the user will be requested to provide the relevant recipe files
-      or to install the dependencies manually. This behaviour is affected by the
-      ``-n`` option, where no prompt will be sent to STDOUT and the current
-      package install shall be halted.
+      those packages do not exist, or the package does not seem to be installed
+      on the system, then a prompt will be sent to STDOUT, asking the user if
+      the dependencies are already installed. If the user responds no, then the
+      user will be requested to provide the relevant recipe files or to install
+      the dependencies manually. This behaviour is affected by the ``-n``
+      option, where no prompt will be sent to STDOUT and the current package
+      install shall be halted.
+
+      The method of finding dependencies on the system is
+      implementation-defined. Usually, an educated guess can work.
 
       To verify dependency versions, a simple check akin to ``a == b`` shall be
       used.
@@ -177,9 +193,20 @@ Extended Description
       ``SOURCE`` shall be checked against handlers specified in
       ``SLATE_SOURCE_HANDLERS`` such that a source like:
       ``https://example.com/file.tar.xz`` is handled in the order of: ``wget``,
-      ``xz``, ``tar``, when ``SLATE_SOURCE_HANDLERS`` is::
+      then ``xz``, then ``tar``, when ``SLATE_SOURCE_HANDLERS`` is::
 
-            https:wget,xz:xz,tar:tar
+            xz:xz,https:wget,tar:tar
+
+      The flow of data between handlers in ``SLATE_SOURCE_HANDLERS`` is
+      implementation-defined.
+
+**Errors**
+      Error messages are intentionally minimal, and most package errors should
+      be fixable by editing the relevant package or metadata file. In the case
+      where installing a package from a recipe fails, ``slate`` shall not
+      attempt to fix the error, and should instead simply halt the install and
+      move to the next one.
+
 
 Exit Status
 ```````````

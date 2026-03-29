@@ -49,6 +49,8 @@
 STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       <p>SLATE is a package manager that allows users to install
       packages without requiring root privilege.</p>
+      <p>SLATE is intended to be small, and most gaps in the spec are
+      because I am not confident in my own ability to solve them.</p>
       <h2 id="synopsis">Synopsis</h2>
       <p><code>slate [-n] [-i install_to] package ...</code></p>
       <h2 id="options">Options</h2>
@@ -56,7 +58,7 @@ STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       <dl>
       <dt><code>-n</code></dt>
       <dd>
-      <p>Supress interactive prompts.</p>
+      <p>Suppress interactive prompts.</p>
       </dd>
       <dt><code>-i install_to</code></dt>
       <dd>
@@ -77,8 +79,11 @@ STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       <dt><code>package</code></dt>
       <dd>
       <p>The package name to be installed. If <code>package</code> is
-      '-' or empty, then <code>slate</code> will accept package names
-      from the standard input at that point in the sequence.</p>
+      '-' or an empty string, then <code>slate</code> will accept
+      package names from the standard input at that point in the
+      sequence. A package name must match a <code>.slate</code> file in
+      <code>SLATE_DATA_DIR/book</code>, without the <code>.slate</code>
+      extension.</p>
       </dd>
       </dl>
       <h2 id="input-files">Input Files</h2>
@@ -135,9 +140,15 @@ runtime dependency 1=runtime dependency 1&#39;s version
 runtime dependency 2=runtime dependency 2&#39;s version
 runtime dependency 3=runtime dependency 3&#39;s version
 ...</code></pre>
+      <p>A package's installed files shall be symlinked to the final
+      destination (<code>install_to/(bin/, lib/, etc.)</code>,
+      <code>$HOME/.local/(bin/, lib/, etc.)</code>,
+      <code>/(bin/, lib/, etc.)</code>) from
+      <code>db/{package}</code>.</p>
       <p><code>install</code> is simply a scratchpad for installing
       packages. Package archives are moved here before operation,
-      installed to <code>db/{package}</code>, and then cleared out.</p>
+      installed to <code>db/{package}</code>, and then cleared out.
+      Recipe functions are executed on a package's source tree here.</p>
       <p>During operation, <code>slate</code> shall create a lock file
       (named <code>lock</code>) in <code>SLATE_DATA_DIR</code>. This
       file is deleted when <code>slate</code> exits. If
@@ -147,6 +158,9 @@ runtime dependency 3=runtime dependency 3&#39;s version
       </dd>
       <dt><strong>Recipe Files</strong></dt>
       <dd>
+      <p>It is important that recipes are easy to find and edit. A user
+      should be able to edit a recipe to fit their system when
+      needed.</p>
       <p>A given recipe file should contain at least the variables:
       <code>VERSION</code>, <code>SOURCE</code>, <code>PRIVATE</code>,
       <code>BDEPS</code>, <code>RDEPS</code>. They are not required,
@@ -158,9 +172,10 @@ runtime dependency 3=runtime dependency 3&#39;s version
       <li><code>SOURCE</code>: where this package's source can be found
       on the system (absolute path), or a remote URL pointing to this
       package's source.</li>
-      <li><code>PRIVATE</code>: if 1, this package's installed files
-      will be mode 700 (<code>rwx --- ---</code>). Else, this package's
-      installed files will be whatever the <code>umask</code> is.</li>
+      <li><code>PRIVATE</code>: if 1, <code>umask</code> shall be set to
+      mode 700 during package installation (<code>rwx --- ---</code>).
+      Else, this package's installed files will be whatever the
+      <code>umask</code> is when <code>slate</code> is executed.</li>
       <li><code>BDEPS</code>: a space-separated list of package names
       that this package relies on to be installed properly. Dependency
       versions should also be specified with the form
@@ -193,13 +208,16 @@ install()
       <code>install()</code>) in any given recipe and shall only execute
       them in that order.</p>
       <p>If <code>BDEPS</code> and/or <code>RDEPS</code> are set, and
-      recipe files corresponding to those packages do not exist, then a
-      prompt will be sent to STDOUT, asking the user if the dependencies
-      are already installed. If the user responds no, then the user will
-      be requested to provide the relevant recipe files or to install
-      the dependencies manually. This behaviour is affected by the
+      recipe files corresponding to those packages do not exist, or the
+      package does not seem to be installed on the system, then a prompt
+      will be sent to STDOUT, asking the user if the dependencies are
+      already installed. If the user responds no, then the user will be
+      requested to provide the relevant recipe files or to install the
+      dependencies manually. This behaviour is affected by the
       <code>-n</code> option, where no prompt will be sent to STDOUT and
       the current package install shall be halted.</p>
+      <p>The method of finding dependencies on the system is
+      implementation-defined. Usually, an educated guess can work.</p>
       <p>To verify dependency versions, a simple check akin to
       <code>a == b</code> shall be used.</p>
       <p>Circular dependencies shall be detected by keeping a running
@@ -209,9 +227,20 @@ install()
       <p><code>SOURCE</code> shall be checked against handlers specified
       in <code>SLATE_SOURCE_HANDLERS</code> such that a source like:
       <code>https://example.com/file.tar.xz</code> is handled in the
-      order of: <code>wget</code>, <code>xz</code>, <code>tar</code>,
-      when <code>SLATE_SOURCE_HANDLERS</code> is:</p>
-      <pre><code>https:wget,xz:xz,tar:tar</code></pre>
+      order of: <code>wget</code>, then <code>xz</code>, then
+      <code>tar</code>, when <code>SLATE_SOURCE_HANDLERS</code> is:</p>
+      <pre><code>xz:xz,https:wget,tar:tar</code></pre>
+      <p>The flow of data between handlers in
+      <code>SLATE_SOURCE_HANDLERS</code> is implementation-defined.</p>
+      </dd>
+      <dt><strong>Errors</strong></dt>
+      <dd>
+      <p>Error messages are intentionally minimal, and most package
+      errors should be fixable by editing the relevant package or
+      metadata file. In the case where installing a package from a
+      recipe fails, <code>slate</code> shall not attempt to fix the
+      error, and should instead simply halt the install and move to the
+      next one.</p>
       </dd>
       </dl>
       <h2 id="exit-status">Exit Status</h2>
