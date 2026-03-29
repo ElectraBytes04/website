@@ -149,12 +149,12 @@ runtime dependency 3=runtime dependency 3&#39;s version
       packages. Package archives are moved here before operation,
       installed to <code>db/{package}</code>, and then cleared out.
       Recipe functions are executed on a package's source tree here.</p>
-      <p>During operation, <code>slate</code> shall create a lock file
-      (named <code>lock</code>) in <code>SLATE_DATA_DIR</code>. This
-      file is deleted when <code>slate</code> exits. If
-      <code>slate</code> is executed while the <code>lock</code> file
-      exists, then <code>slate</code> shall do nothing and exit with
-      <code>2</code>.</p>
+      <p>During operation, <code>slate</code> shall atomically create a
+      lock file (named <code>lock</code>) in
+      <code>SLATE_DATA_DIR</code>. This file is deleted when
+      <code>slate</code> exits. If <code>slate</code> is executed while
+      the <code>lock</code> file exists, then <code>slate</code> shall
+      do nothing and exit with <code>2</code>.</p>
       </dd>
       <dt><strong>Recipe Files</strong></dt>
       <dd>

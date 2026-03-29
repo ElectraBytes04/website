@@ -119,10 +119,10 @@ Extended Description
       and then cleared out. Recipe functions are executed on a package's source
       tree here.
 
-      During operation, ``slate`` shall create a lock file (named ``lock``) in
-      ``SLATE_DATA_DIR``. This file is deleted when ``slate`` exits. If
-      ``slate`` is executed while the ``lock`` file exists, then ``slate`` shall
-      do nothing and exit with ``2``.
+      During operation, ``slate`` shall atomically create a lock file (named
+      ``lock``) in ``SLATE_DATA_DIR``. This file is deleted when ``slate``
+      exits. If ``slate`` is executed while the ``lock`` file exists, then
+      ``slate`` shall do nothing and exit with ``2``.
 
 **Recipe Files**
       It is important that recipes are easy to find and edit. A user should be
