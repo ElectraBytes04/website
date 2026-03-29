@@ -44,6 +44,7 @@ The following options shall be supported:
 Operands
 ````````
 The following operand shall be supported:
+
 ``package``
       The package name to be installed. If ``package`` is '-' or empty, then
       ``slate`` will accept package names from the standard input at that point
@@ -61,6 +62,7 @@ Environment Variables
 `````````````````````
 The following environment variable shall affect the execution of 
 ``slate``:
+
 ``SLATE_DATA_DIR``
       Provides the path to the folder where ``slate`` will find recipes,
       the lock file, and its database of installed packages. If not set,

@@ -72,10 +72,15 @@ STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       </dd>
       </dl>
       <h2 id="operands">Operands</h2>
-      <p>The following operand shall be supported: <code>package</code>
-      The package name to be installed. If <code>package</code> is '-'
-      or empty, then <code>slate</code> will accept package names from
-      the standard input at that point in the sequence.</p>
+      <p>The following operand shall be supported:</p>
+      <dl>
+      <dt><code>package</code></dt>
+      <dd>
+      <p>The package name to be installed. If <code>package</code> is
+      '-' or empty, then <code>slate</code> will accept package names
+      from the standard input at that point in the sequence.</p>
+      </dd>
+      </dl>
       <h2 id="input-files">Input Files</h2>
       <p>The input file(s) shall be shell script(s). The input file(s)
       should contain (at least) the variables: <code>VERSION</code>,
@@ -83,17 +88,26 @@ STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       <code>RDEPS</code>.</p>
       <h2 id="environment-variables">Environment Variables</h2>
       <p>The following environment variable shall affect the execution
-      of <code>slate</code>: <code>SLATE_DATA_DIR</code> Provides the
-      path to the folder where <code>slate</code> will find recipes, the
-      lock file, and its database of installed packages. If not set,
-      then <code>slate</code> will use <code>$HOME/.local/slate</code>.
-      <code>SLATE_SOURCE_HANDLERS</code> Provides a list of file (and
-      protocol) handlers that <code>slate</code> will use to extract
-      package archives. If <code>SLATE_SOURCE_HANDLERS</code> is empty,
-      or a tool that is required isn't available, then
-      <code>slate</code> will treat provided package archives as
-      directories. This environment variable should be in the form:</p>
+      of <code>slate</code>:</p>
+      <dl>
+      <dt><code>SLATE_DATA_DIR</code></dt>
+      <dd>
+      <p>Provides the path to the folder where <code>slate</code> will
+      find recipes, the lock file, and its database of installed
+      packages. If not set, then <code>slate</code> will use
+      <code>$HOME/.local/slate</code>.</p>
+      </dd>
+      <dt><code>SLATE_SOURCE_HANDLERS</code></dt>
+      <dd>
+      <p>Provides a list of file (and protocol) handlers that
+      <code>slate</code> will use to extract package archives. If
+      <code>SLATE_SOURCE_HANDLERS</code> is empty, or a tool that is
+      required isn't available, then <code>slate</code> will treat
+      provided package archives as directories. This environment
+      variable should be in the form:</p>
       <pre><code>key:value,key:value,key:value,...</code></pre>
+      </dd>
+      </dl>
       <h2 id="extended-description">Extended Description</h2>
       <dl>
       <dt><strong>The Data Directory</strong></dt>
