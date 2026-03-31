@@ -14,14 +14,42 @@ SLATE Package Manager
       \===\  |      |===|    |    |===
           |  |      |   |    |    |
       \===/  \===/  \   /    |    \===/
-      
+
       STALE  LEMONS ALWAYS TURN   EXOTHERMIC
 
-SLATE is a package manager that allows users to install packages without
-requiring root privilege.
+SLATE is a minimal, source-based package management program with an ability to
+do rootless installs. It assumes users are already comfortable operating in the
+underlying system and know how to build packages from source. SLATE's recipe
+files are easy to read, edit, and share by design.
 
-SLATE is intended to be small, and most gaps in the spec are because I am not
-confident in my own ability to solve them.
+SLATE is intended to be small. Where the spec is silent, behaviour is
+implementation-defined.
+
+Things like querying SLATE-installed packages, removing a package, and purging
+packages are not included. This is because the structure of
+``SLATE_DATA_DIR/db`` and ``SLATE_DATA_DIR`` itself makes these trivially
+simple. Examples of each:
+
+- List SLATE-installed packages (also gives most recent install time): ``ls
+  $SLATE_DATA_DIR/db``
+- Remove a SLATE-installed package from the system::
+
+      find "$SLATE_DATA_DIR/db/{package_name}" -type l | while read -r f
+      do
+            rm "$(readlink "$f")" "$f"
+      done
+
+      rm -rf "$SLATE_DATA_DIR/db/{package_name}"
+
+- Purge a SLATE-installed package from the system::
+
+      find "$SLATE_DATA_DIR/db/{package_name}" -type l | while read -r f
+      do
+            rm "$(readlink "$f")" "$f"
+      done
+
+      rm -rf "$SLATE_DATA_DIR/db/{package_name}"
+      rm "$SLATE_DATA_DIR/book/{package_name}.slate"
 
 Synopsis
 ````````
@@ -49,10 +77,10 @@ Operands
 The following operand shall be supported:
 
 ``package``
-      The package name to be installed. If ``package`` is '-' or an empty
-      string, then ``slate`` will accept package names from the standard input
-      at that point in the sequence. A package name must match a ``.slate`` file
-      in ``SLATE_DATA_DIR/book``, without the ``.slate`` extension.
+      The package name to be installed. If ``package`` is '-', then ``slate``
+      will accept package names from the standard input at that point in the
+      sequence. A package name must match a ``.slate`` file in
+      ``SLATE_DATA_DIR/book``, without the ``.slate`` extension.
 
 
 Input Files
@@ -95,9 +123,9 @@ Extended Description
       "``.slate``".
 
       ``db`` stores a package's installed files and metadata. Packages have
-      their own directory (named after the filename of the recipe), which
-      contains all files that a package installs (within relevant directories
-      (``bin/``, ``lib/``, etc.). Package metadata (version, runtime
+      their own directory (named after the filename of the recipe, excluding the
+      ``.slate`` extension), which
+      mirrors the final install layout. Package metadata (version, runtime
       dependencies (if specified)) is stored in a ``meta`` file in the package's
       directory. Package build dependencies are excluded, as they do not matter
       for the actual execution, and could be removed after install without
@@ -116,13 +144,15 @@ Extended Description
 
       ``install`` is simply a scratchpad for installing packages. Package
       archives are moved here before operation, installed to ``db/{package}``,
-      and then cleared out. Recipe functions are executed on a package's source
+      and then cleared out. ``install`` shall be cleared before each package
+      install, too. Recipe functions are executed on a package's source
       tree here.
 
       During operation, ``slate`` shall atomically create a lock file (named
       ``lock``) in ``SLATE_DATA_DIR``. This file is deleted when ``slate``
       exits. If ``slate`` is executed while the ``lock`` file exists, then
-      ``slate`` shall do nothing and exit with ``2``.
+      ``slate`` shall do nothing and exit with ``2``. A stale lock file can be
+      safely removed by the user.
 
 **Recipe Files**
       It is important that recipes are easy to find and edit. A user should be
@@ -153,7 +183,7 @@ Extended Description
 
             patch()
             {
-                  return 0;
+                  printf "No patches to be applied.\n" && return 0;
             }
 
             build()
@@ -190,7 +220,7 @@ Extended Description
       version has already been visited, then the package install shall be
       halted.
 
-      ``SOURCE`` shall be checked against handlers specified in
+      ``SOURCE`` shall be matched by substring against handlers specified in
       ``SLATE_SOURCE_HANDLERS`` such that a source like:
       ``https://example.com/file.tar.xz`` is handled in the order of: ``wget``,
       then ``xz``, then ``tar``, when ``SLATE_SOURCE_HANDLERS`` is::
@@ -215,6 +245,6 @@ The following exit values shall be returned:
 ``0``
       All packages were installed successfully.
 ``1``
-      Some packages were installed successfully.
+      One or more packages failed. Generic error.
 ``2``
-      No packages were installed successfully.
+      Program misuse. Bad option, missing operand, lock file exists, etc.

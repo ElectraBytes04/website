@@ -47,10 +47,37 @@
 \===/  \===/  \   /    |    \===/
 
 STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
-      <p>SLATE is a package manager that allows users to install
-      packages without requiring root privilege.</p>
-      <p>SLATE is intended to be small, and most gaps in the spec are
-      because I am not confident in my own ability to solve them.</p>
+      <p>SLATE is a minimal, source-based package management program
+      with an ability to do rootless installs. It assumes users are
+      already comfortable operating in the underlying system and know
+      how to build packages from source. SLATE's recipe files are easy
+      to read, edit, and share by design.</p>
+      <p>SLATE is intended to be small. Where the spec is silent,
+      behaviour is implementation-defined.</p>
+      <p>Things like querying SLATE-installed packages, removing a
+      package, and purging packages are not included. This is because
+      the structure of <code>SLATE_DATA_DIR/db</code> and
+      <code>SLATE_DATA_DIR</code> itself makes these trivially simple.
+      Examples of each:</p>
+      <ul>
+      <li><p>List SLATE-installed packages (also gives most recent
+      install time): <code>ls $SLATE_DATA_DIR/db</code></p></li>
+      <li><p>Remove a SLATE-installed package from the system:</p>
+      <pre><code>find &quot;$SLATE_DATA_DIR/db/{package_name}&quot; -type l | while read -r f
+do
+      rm &quot;$(readlink &quot;$f&quot;)&quot; &quot;$f&quot;
+done
+
+rm -rf &quot;$SLATE_DATA_DIR/db/{package_name}&quot;</code></pre></li>
+      <li><p>Purge a SLATE-installed package from the system:</p>
+      <pre><code>find &quot;$SLATE_DATA_DIR/db/{package_name}&quot; -type l | while read -r f
+do
+      rm &quot;$(readlink &quot;$f&quot;)&quot; &quot;$f&quot;
+done
+
+rm -rf &quot;$SLATE_DATA_DIR/db/{package_name}&quot;
+rm &quot;$SLATE_DATA_DIR/book/{package_name}.slate&quot;</code></pre></li>
+      </ul>
       <h2 id="synopsis">Synopsis</h2>
       <p><code>slate [-n] [-i install_to] package ...</code></p>
       <h2 id="options">Options</h2>
@@ -79,9 +106,9 @@ STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       <dt><code>package</code></dt>
       <dd>
       <p>The package name to be installed. If <code>package</code> is
-      '-' or an empty string, then <code>slate</code> will accept
-      package names from the standard input at that point in the
-      sequence. A package name must match a <code>.slate</code> file in
+      '-', then <code>slate</code> will accept package names from the
+      standard input at that point in the sequence. A package name must
+      match a <code>.slate</code> file in
       <code>SLATE_DATA_DIR/book</code>, without the <code>.slate</code>
       extension.</p>
       </dd>
@@ -126,15 +153,14 @@ STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       extension "<code>.slate</code>".</p>
       <p><code>db</code> stores a package's installed files and
       metadata. Packages have their own directory (named after the
-      filename of the recipe), which contains all files that a package
-      installs (within relevant directories (<code>bin/</code>,
-      <code>lib/</code>, etc.). Package metadata (version, runtime
-      dependencies (if specified)) is stored in a <code>meta</code> file
-      in the package's directory. Package build dependencies are
-      excluded, as they do not matter for the actual execution, and
-      could be removed after install without issue. The
-      <code>meta</code> file is formatted such that each item is on its
-      own line:</p>
+      filename of the recipe, excluding the <code>.slate</code>
+      extension), which mirrors the final install layout. Package
+      metadata (version, runtime dependencies (if specified)) is stored
+      in a <code>meta</code> file in the package's directory. Package
+      build dependencies are excluded, as they do not matter for the
+      actual execution, and could be removed after install without
+      issue. The <code>meta</code> file is formatted such that each item
+      is on its own line:</p>
       <pre><code>version
 runtime dependency 1=runtime dependency 1&#39;s version
 runtime dependency 2=runtime dependency 2&#39;s version
@@ -148,13 +174,16 @@ runtime dependency 3=runtime dependency 3&#39;s version
       <p><code>install</code> is simply a scratchpad for installing
       packages. Package archives are moved here before operation,
       installed to <code>db/{package}</code>, and then cleared out.
-      Recipe functions are executed on a package's source tree here.</p>
+      <code>install</code> shall be cleared before each package install,
+      too. Recipe functions are executed on a package's source tree
+      here.</p>
       <p>During operation, <code>slate</code> shall atomically create a
       lock file (named <code>lock</code>) in
       <code>SLATE_DATA_DIR</code>. This file is deleted when
       <code>slate</code> exits. If <code>slate</code> is executed while
       the <code>lock</code> file exists, then <code>slate</code> shall
-      do nothing and exit with <code>2</code>.</p>
+      do nothing and exit with <code>2</code>. A stale lock file can be
+      safely removed by the user.</p>
       </dd>
       <dt><strong>Recipe Files</strong></dt>
       <dd>
@@ -191,7 +220,7 @@ runtime dependency 3=runtime dependency 3&#39;s version
       <code>slate</code> shall default to the following definitions:</p>
       <pre><code>patch()
 {
-      return 0;
+      printf &quot;No patches to be applied.\n&quot; &amp;&amp; return 0;
 }
 
 build()
@@ -224,11 +253,12 @@ install()
       list of visited recipes, and their version. If a recipe matching
       this name and version has already been visited, then the package
       install shall be halted.</p>
-      <p><code>SOURCE</code> shall be checked against handlers specified
-      in <code>SLATE_SOURCE_HANDLERS</code> such that a source like:
-      <code>https://example.com/file.tar.xz</code> is handled in the
-      order of: <code>wget</code>, then <code>xz</code>, then
-      <code>tar</code>, when <code>SLATE_SOURCE_HANDLERS</code> is:</p>
+      <p><code>SOURCE</code> shall be matched by substring against
+      handlers specified in <code>SLATE_SOURCE_HANDLERS</code> such that
+      a source like: <code>https://example.com/file.tar.xz</code> is
+      handled in the order of: <code>wget</code>, then <code>xz</code>,
+      then <code>tar</code>, when <code>SLATE_SOURCE_HANDLERS</code>
+      is:</p>
       <pre><code>xz:xz,https:wget,tar:tar</code></pre>
       <p>The flow of data between handlers in
       <code>SLATE_SOURCE_HANDLERS</code> is implementation-defined.</p>
@@ -252,11 +282,12 @@ install()
       </dd>
       <dt><code>1</code></dt>
       <dd>
-      <p>Some packages were installed successfully.</p>
+      <p>One or more packages failed. Generic error.</p>
       </dd>
       <dt><code>2</code></dt>
       <dd>
-      <p>No packages were installed successfully.</p>
+      <p>Program misuse. Bad option, missing operand, lock file exists,
+      etc.</p>
       </dd>
       </dl>
     </div>
