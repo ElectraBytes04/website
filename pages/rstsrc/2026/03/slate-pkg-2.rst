@@ -98,7 +98,8 @@ The following environment variable shall affect the execution of
 ``SLATE_DATA_DIR``
       Provides the path to the folder where ``slate`` will find recipes,
       the lock file, and its database of installed packages. If not set,
-      then ``slate`` will use ``$HOME/.local/slate``.
+      then ``slate`` will use ``/var/slate`` when effective uid is 0 (root), and
+      ``$HOME/.local/slate`` otherwise.
 ``SLATE_SOURCE_HANDLERS``
       Provides a list of file (and protocol) handlers that ``slate`` will use to
       extract package archives. If ``SLATE_SOURCE_HANDLERS`` is empty, or a tool

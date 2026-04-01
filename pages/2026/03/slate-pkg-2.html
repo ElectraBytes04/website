@@ -127,7 +127,8 @@ rm &quot;$SLATE_DATA_DIR/book/{package_name}.slate&quot;</code></pre></li>
       <p>Provides the path to the folder where <code>slate</code> will
       find recipes, the lock file, and its database of installed
       packages. If not set, then <code>slate</code> will use
-      <code>$HOME/.local/slate</code>.</p>
+      <code>/var/slate</code> when effective uid is 0 (root), and
+      <code>$HOME/.local/slate</code> otherwise.</p>
       </dd>
       <dt><code>SLATE_SOURCE_HANDLERS</code></dt>
       <dd>
