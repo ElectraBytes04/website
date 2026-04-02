@@ -63,20 +63,20 @@ STALE  LEMONS ALWAYS TURN   EXOTHERMIC</code></pre>
       <li><p>List SLATE-installed packages (also gives most recent
       install time): <code>ls $SLATE_DATA_DIR/db</code></p></li>
       <li><p>Remove a SLATE-installed package from the system:</p>
-      <pre><code>find &quot;$SLATE_DATA_DIR/db/{package_name}&quot; -type l | while read -r f
+      <pre><code>find &quot;$SLATE_DATA_DIR/db/{name=version}&quot; -type l | while read -r f
 do
       rm &quot;$(readlink &quot;$f&quot;)&quot; &quot;$f&quot;
 done
 
-rm -rf &quot;$SLATE_DATA_DIR/db/{package_name}&quot;</code></pre></li>
+rm -rf &quot;$SLATE_DATA_DIR/db/{name=version}&quot;</code></pre></li>
       <li><p>Purge a SLATE-installed package from the system:</p>
-      <pre><code>find &quot;$SLATE_DATA_DIR/db/{package_name}&quot; -type l | while read -r f
+      <pre><code>find &quot;$SLATE_DATA_DIR/db/{name=version}&quot; -type l | while read -r f
 do
       rm &quot;$(readlink &quot;$f&quot;)&quot; &quot;$f&quot;
 done
 
-rm -rf &quot;$SLATE_DATA_DIR/db/{package_name}&quot;
-rm &quot;$SLATE_DATA_DIR/book/{package_name}.slate&quot;</code></pre></li>
+rm -rf &quot;$SLATE_DATA_DIR/db/{name=version}&quot;
+rm &quot;$SLATE_DATA_DIR/book/{name=version}.slate&quot;</code></pre></li>
       </ul>
       <h2 id="synopsis">Synopsis</h2>
       <p><code>slate [-n] [-i install_to] package ...</code></p>
@@ -110,14 +110,15 @@ rm &quot;$SLATE_DATA_DIR/book/{package_name}.slate&quot;</code></pre></li>
       standard input at that point in the sequence. A package name must
       match a <code>.slate</code> file in
       <code>SLATE_DATA_DIR/book</code>, without the <code>.slate</code>
-      extension.</p>
+      extension. A package name must be something like:
+      <code>package=version</code>, where the version is included after
+      an equals sign.</p>
       </dd>
       </dl>
       <h2 id="input-files">Input Files</h2>
       <p>The input file(s) shall be shell script(s). The input file(s)
-      should contain (at least) the variables: <code>VERSION</code>,
-      <code>SOURCE</code>, <code>PRIVATE</code>, <code>BDEPS</code>,
-      <code>RDEPS</code>.</p>
+      should contain (at least) the variables:<code>SOURCE</code>,
+      <code>PRIVATE</code>, <code>BDEPS</code>, <code>RDEPS</code>.</p>
       <h2 id="environment-variables">Environment Variables</h2>
       <p>The following environment variable shall affect the execution
       of <code>slate</code>:</p>
@@ -156,14 +157,13 @@ rm &quot;$SLATE_DATA_DIR/book/{package_name}.slate&quot;</code></pre></li>
       metadata. Packages have their own directory (named after the
       filename of the recipe, excluding the <code>.slate</code>
       extension), which mirrors the final install layout. Package
-      metadata (version, runtime dependencies (if specified)) is stored
-      in a <code>meta</code> file in the package's directory. Package
-      build dependencies are excluded, as they do not matter for the
-      actual execution, and could be removed after install without
-      issue. The <code>meta</code> file is formatted such that each item
-      is on its own line:</p>
-      <pre><code>version
-runtime dependency 1=runtime dependency 1&#39;s version
+      metadata (runtime dependencies (if specified)) is stored in a
+      <code>meta</code> file in the package's directory. Package build
+      dependencies are excluded, as they do not matter for the actual
+      execution, and could be removed after install without issue. The
+      <code>meta</code> file is formatted such that each item is on its
+      own line:</p>
+      <pre><code>runtime dependency 1=runtime dependency 1&#39;s version
 runtime dependency 2=runtime dependency 2&#39;s version
 runtime dependency 3=runtime dependency 3&#39;s version
 ...</code></pre>
@@ -192,13 +192,12 @@ runtime dependency 3=runtime dependency 3&#39;s version
       should be able to edit a recipe to fit their system when
       needed.</p>
       <p>A given recipe file should contain at least the variables:
-      <code>VERSION</code>, <code>SOURCE</code>, <code>PRIVATE</code>,
-      <code>BDEPS</code>, <code>RDEPS</code>. They are not required,
-      however, as they will default to empty strings if not set, but the
-      <code>meta</code> file will contain no, or useless, data. The
-      variables refer to the following:</p>
+      <code>SOURCE</code>, <code>PRIVATE</code>, <code>BDEPS</code>,
+      <code>RDEPS</code>. They are not required, however, as they will
+      default to empty strings if not set, but the <code>meta</code>
+      file will contain no, or useless, data. The variables refer to the
+      following:</p>
       <ul>
-      <li><code>VERSION</code>: the version of this package.</li>
       <li><code>SOURCE</code>: where this package's source can be found
       on the system (absolute path), or a remote URL pointing to this
       package's source.</li>
@@ -209,7 +208,10 @@ runtime dependency 3=runtime dependency 3&#39;s version
       <li><code>BDEPS</code>: a space-separated list of package names
       that this package relies on to be installed properly. Dependency
       versions should also be specified with the form
-      <code>package=version</code>.</li>
+      <code>package=version</code>. BDEPS shall be installed to the
+      currently-being-installed package's source tree, and added to a
+      temporary PATH for use during the build, but not installed to the
+      host system.</li>
       <li><code>RDEPS</code>: a space-separated list of package names
       that this package relies on to be executed properly. Dependency
       versions should also be specified with the form

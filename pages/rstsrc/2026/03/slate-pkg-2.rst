@@ -34,22 +34,22 @@ simple. Examples of each:
   $SLATE_DATA_DIR/db``
 - Remove a SLATE-installed package from the system::
 
-      find "$SLATE_DATA_DIR/db/{package_name}" -type l | while read -r f
+      find "$SLATE_DATA_DIR/db/{name=version}" -type l | while read -r f
       do
             rm "$(readlink "$f")" "$f"
       done
 
-      rm -rf "$SLATE_DATA_DIR/db/{package_name}"
+      rm -rf "$SLATE_DATA_DIR/db/{name=version}"
 
 - Purge a SLATE-installed package from the system::
 
-      find "$SLATE_DATA_DIR/db/{package_name}" -type l | while read -r f
+      find "$SLATE_DATA_DIR/db/{name=version}" -type l | while read -r f
       do
             rm "$(readlink "$f")" "$f"
       done
 
-      rm -rf "$SLATE_DATA_DIR/db/{package_name}"
-      rm "$SLATE_DATA_DIR/book/{package_name}.slate"
+      rm -rf "$SLATE_DATA_DIR/db/{name=version}"
+      rm "$SLATE_DATA_DIR/book/{name=version}.slate"
 
 Synopsis
 ````````
@@ -80,14 +80,15 @@ The following operand shall be supported:
       The package name to be installed. If ``package`` is '-', then ``slate``
       will accept package names from the standard input at that point in the
       sequence. A package name must match a ``.slate`` file in
-      ``SLATE_DATA_DIR/book``, without the ``.slate`` extension.
+      ``SLATE_DATA_DIR/book``, without the ``.slate`` extension. A package name
+      must be something like: ``package=version``, where the version is included
+      after an equals sign.
 
 
 Input Files
 ```````````
 The input file(s) shall be shell script(s). The input file(s) should contain (at
-least) the variables: ``VERSION``, ``SOURCE``, ``PRIVATE``, ``BDEPS``,
-``RDEPS``.
+least) the variables:``SOURCE``, ``PRIVATE``, ``BDEPS``, ``RDEPS``.
 
 
 Environment Variables
@@ -125,15 +126,13 @@ Extended Description
 
       ``db`` stores a package's installed files and metadata. Packages have
       their own directory (named after the filename of the recipe, excluding the
-      ``.slate`` extension), which
-      mirrors the final install layout. Package metadata (version, runtime
-      dependencies (if specified)) is stored in a ``meta`` file in the package's
-      directory. Package build dependencies are excluded, as they do not matter
-      for the actual execution, and could be removed after install without
-      issue. The ``meta`` file is formatted such that each item is on its own
-      line::
+      ``.slate`` extension), which mirrors the final install layout. Package
+      metadata (runtime dependencies (if specified)) is stored in a ``meta``
+      file in the package's directory. Package build dependencies are excluded,
+      as they do not matter for the actual execution, and could be removed after
+      install without issue. The ``meta`` file is formatted such that each item
+      is on its own line::
 
-            version
             runtime dependency 1=runtime dependency 1's version
             runtime dependency 2=runtime dependency 2's version
             runtime dependency 3=runtime dependency 3's version
@@ -159,13 +158,11 @@ Extended Description
       It is important that recipes are easy to find and edit. A user should be
       able to edit a recipe to fit their system when needed.
 
-      A given recipe file should contain at least the variables: ``VERSION``,
-      ``SOURCE``, ``PRIVATE``, ``BDEPS``, ``RDEPS``. They are not required,
-      however, as they will default to empty strings if not set, but the
-      ``meta`` file will contain no, or useless, data. The variables refer to
-      the following:
+      A given recipe file should contain at least the variables: ``SOURCE``,
+      ``PRIVATE``, ``BDEPS``, ``RDEPS``. They are not required, however, as they
+      will default to empty strings if not set, but the ``meta`` file will
+      contain no, or useless, data. The variables refer to the following:
 
-      - ``VERSION``: the version of this package.
       - ``SOURCE``: where this package's source can be found on the system
         (absolute path), or a remote URL pointing to this package's source.
       - ``PRIVATE``: if 1, ``umask`` shall be set to mode 700 during package
@@ -173,7 +170,10 @@ Extended Description
         will be whatever the ``umask`` is when ``slate`` is executed.
       - ``BDEPS``: a space-separated list of package names that this package
         relies on to be installed properly. Dependency versions should also be
-        specified with the form ``package=version``.
+        specified with the form ``package=version``. BDEPS shall be installed to
+        the currently-being-installed package's source tree, and added to a
+        temporary PATH for use during the build, but not installed to the host
+        system.
       - ``RDEPS``: a space-separated list of package names that this package
         relies on to be executed properly. Dependency versions should also be
         specified with the form ``package=version``.
