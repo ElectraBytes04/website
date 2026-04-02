@@ -88,7 +88,7 @@ The following operand shall be supported:
 Input Files
 ```````````
 The input file(s) shall be shell script(s). The input file(s) should contain (at
-least) the variables:``SOURCE``, ``PRIVATE``, ``BDEPS``, ``RDEPS``.
+least) the variables:``SSOURCE``, ``SPRIVATE``, ``SBDEPS``, ``SRDEPS``.
 
 
 Environment Variables
@@ -101,10 +101,10 @@ The following environment variable shall affect the execution of
       the lock file, and its database of installed packages. If not set,
       then ``slate`` will use ``/var/slate`` when effective uid is 0 (root), and
       ``$HOME/.local/slate`` otherwise.
-``SLATE_SOURCE_HANDLERS``
+``SLATE_SSOURCE_HANDLERS``
       Provides a list of file (and protocol) handlers that ``slate`` will use to
-      extract package archives. If ``SLATE_SOURCE_HANDLERS`` is empty, or a tool
-      that is required isn't available, then ``slate`` will treat provided
+      extract package archives. If ``SLATE_SSOURCE_HANDLERS`` is empty, or a
+      tool that is required isn't available, then ``slate`` will treat provided
       package archives as directories. This environment variable should be in
       the form::
 
@@ -158,23 +158,23 @@ Extended Description
       It is important that recipes are easy to find and edit. A user should be
       able to edit a recipe to fit their system when needed.
 
-      A given recipe file should contain at least the variables: ``SOURCE``,
-      ``PRIVATE``, ``BDEPS``, ``RDEPS``. They are not required, however, as they
-      will default to empty strings if not set, but the ``meta`` file will
+      A given recipe file should contain at least the variables: ``SSOURCE``,
+      ``SPRIVATE``, ``SBDEPS``, ``SRDEPS``. They are not required, however, as
+      they will default to empty strings if not set, but the ``meta`` file will
       contain no, or useless, data. The variables refer to the following:
 
-      - ``SOURCE``: where this package's source can be found on the system
+      - ``SSOURCE``: where this package's source can be found on the system
         (absolute path), or a remote URL pointing to this package's source.
-      - ``PRIVATE``: if 1, ``umask`` shall be set to mode 700 during package
+      - ``SPRIVATE``: if 1, ``umask`` shall be set to mode 700 during package
         installation (``rwx --- ---``). Else, this package's installed files
         will be whatever the ``umask`` is when ``slate`` is executed.
-      - ``BDEPS``: a space-separated list of package names that this package
+      - ``SBDEPS``: a space-separated list of package names that this package
         relies on to be installed properly. Dependency versions should also be
-        specified with the form ``package=version``. BDEPS shall be installed to
-        the currently-being-installed package's source tree, and added to a
+        specified with the form ``package=version``. SBDEPS shall be installed
+        to the currently-being-installed package's source tree, and added to a
         temporary PATH for use during the build, but not installed to the host
         system.
-      - ``RDEPS``: a space-separated list of package names that this package
+      - ``SRDEPS``: a space-separated list of package names that this package
         relies on to be executed properly. Dependency versions should also be
         specified with the form ``package=version``.
 
@@ -201,7 +201,7 @@ Extended Description
       ``build()``, ``install()``) in any given recipe and shall only execute
       them in that order.
 
-      If ``BDEPS`` and/or ``RDEPS`` are set, and recipe files corresponding to
+      If ``SBDEPS`` and/or ``SRDEPS`` are set, and recipe files corresponding to
       those packages do not exist, or the package does not seem to be installed
       on the system, then a prompt will be sent to STDOUT, asking the user if
       the dependencies are already installed. If the user responds no, then the
@@ -221,14 +221,14 @@ Extended Description
       version has already been visited, then the package install shall be
       halted.
 
-      ``SOURCE`` shall be matched by substring against handlers specified in
-      ``SLATE_SOURCE_HANDLERS`` such that a source like:
+      ``SSOURCE`` shall be matched by substring against handlers specified in
+      ``SLATE_SSOURCE_HANDLERS`` such that a source like:
       ``https://example.com/file.tar.xz`` is handled in the order of: ``wget``,
-      then ``xz``, then ``tar``, when ``SLATE_SOURCE_HANDLERS`` is::
+      then ``xz``, then ``tar``, when ``SLATE_SSOURCE_HANDLERS`` is::
 
             xz:xz,https:wget,tar:tar
 
-      The flow of data between handlers in ``SLATE_SOURCE_HANDLERS`` is
+      The flow of data between handlers in ``SLATE_SSOURCE_HANDLERS`` is
       implementation-defined.
 
 **Errors**
