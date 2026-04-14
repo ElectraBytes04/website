@@ -132,11 +132,11 @@ rm &quot;$SLATE_DATA_DIR/book/{name=version}.slate&quot;</code></pre></li>
       <code>/var/slate</code> when effective uid is 0 (root), and
       <code>$HOME/.local/slate</code> otherwise.</p>
       </dd>
-      <dt><code>SLATE_SSOURCE_HANDLERS</code></dt>
+      <dt><code>SLATE_SOURCE_HANDLERS</code></dt>
       <dd>
       <p>Provides a list of file (and protocol) handlers that
       <code>slate</code> will use to extract package archives. If
-      <code>SLATE_SSOURCE_HANDLERS</code> is empty, or a tool that is
+      <code>SLATE_SOURCE_HANDLERS</code> is empty, or a tool that is
       required isn't available, then <code>slate</code> will treat
       provided package archives as directories. This environment
       variable should be in the form:</p>
@@ -203,8 +203,8 @@ runtime dependency 3=runtime dependency 3&#39;s version
       on the system (absolute path), or a remote URL pointing to this
       package's source.</li>
       <li><code>SPRIVATE</code>: if 1, <code>umask</code> shall be set
-      to mode 700 during package installation
-      (<code>rwx --- ---</code>). Else, this package's installed files
+      to mode 077 during package installation
+      (<code>- rw- --- ---</code>). Else, this package's installed files
       will be whatever the <code>umask</code> is when <code>slate</code>
       is executed.</li>
       <li><code>SBDEPS</code>: a space-separated list of package names
@@ -259,14 +259,14 @@ install()
       this name and version has already been visited, then the package
       install shall be halted.</p>
       <p><code>SSOURCE</code> shall be matched by substring against
-      handlers specified in <code>SLATE_SSOURCE_HANDLERS</code> such
-      that a source like: <code>https://example.com/file.tar.xz</code>
-      is handled in the order of: <code>wget</code>, then
-      <code>xz</code>, then <code>tar</code>, when
-      <code>SLATE_SSOURCE_HANDLERS</code> is:</p>
-      <pre><code>xz:xz,https:wget,tar:tar</code></pre>
+      handlers specified in <code>SLATE_SOURCE_HANDLERS</code> such that
+      a source like: <code>https://example.com/file.tar.xz</code> is
+      handled in the order of: <code>wget</code>, then <code>xz</code>,
+      then <code>tar</code>, when <code>SLATE_SOURCE_HANDLERS</code>
+      is:</p>
+      <pre><code>xz:xz,https:wget -q,tar:tar -x</code></pre>
       <p>The flow of data between handlers in
-      <code>SLATE_SSOURCE_HANDLERS</code> is implementation-defined.</p>
+      <code>SLATE_SOURCE_HANDLERS</code> is implementation-defined.</p>
       </dd>
       <dt><strong>Errors</strong></dt>
       <dd>

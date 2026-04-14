@@ -25,6 +25,7 @@ do
       # Make file path relative so it can be manipulated easier:
       relrst="${rstfile#$RSTSRC/}"
       relhtml="${relrst%.*}.html"
+      finalpath="${relrst%.*}"
 
       abshtml="$PAGEPATH/$relhtml"
 
@@ -32,7 +33,7 @@ do
       mkdir -p "$datedir"
 
       titleref=`sed -n '2p' "$rstfile"`
-      indexref='<li><a href="/pages/'"${relhtml}"'">'"${titleref}"'</a></li>'
+      indexref='<li><a href="/pages/'"${finalpath}"'">'"${titleref}"'</a></li>'
 
       printf 'Converting file: %s to HTML using Pandoc ...\n' "$rstfile"
       if ! pandoc --template="$PWD/tool/rst.htmt" --shift-heading-level-by=1 \

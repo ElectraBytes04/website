@@ -101,9 +101,9 @@ The following environment variable shall affect the execution of
       the lock file, and its database of installed packages. If not set,
       then ``slate`` will use ``/var/slate`` when effective uid is 0 (root), and
       ``$HOME/.local/slate`` otherwise.
-``SLATE_SSOURCE_HANDLERS``
+``SLATE_SOURCE_HANDLERS``
       Provides a list of file (and protocol) handlers that ``slate`` will use to
-      extract package archives. If ``SLATE_SSOURCE_HANDLERS`` is empty, or a
+      extract package archives. If ``SLATE_SOURCE_HANDLERS`` is empty, or a
       tool that is required isn't available, then ``slate`` will treat provided
       package archives as directories. This environment variable should be in
       the form::
@@ -165,8 +165,8 @@ Extended Description
 
       - ``SSOURCE``: where this package's source can be found on the system
         (absolute path), or a remote URL pointing to this package's source.
-      - ``SPRIVATE``: if 1, ``umask`` shall be set to mode 700 during package
-        installation (``rwx --- ---``). Else, this package's installed files
+      - ``SPRIVATE``: if 1, ``umask`` shall be set to mode 077 during package
+        installation (``- rw- --- ---``). Else, this package's installed files
         will be whatever the ``umask`` is when ``slate`` is executed.
       - ``SBDEPS``: a space-separated list of package names that this package
         relies on to be installed properly. Dependency versions should also be
@@ -222,13 +222,13 @@ Extended Description
       halted.
 
       ``SSOURCE`` shall be matched by substring against handlers specified in
-      ``SLATE_SSOURCE_HANDLERS`` such that a source like:
+      ``SLATE_SOURCE_HANDLERS`` such that a source like:
       ``https://example.com/file.tar.xz`` is handled in the order of: ``wget``,
-      then ``xz``, then ``tar``, when ``SLATE_SSOURCE_HANDLERS`` is::
+      then ``xz``, then ``tar``, when ``SLATE_SOURCE_HANDLERS`` is::
 
-            xz:xz,https:wget,tar:tar
+            xz:xz,https:wget -q,tar:tar -x
 
-      The flow of data between handlers in ``SLATE_SSOURCE_HANDLERS`` is
+      The flow of data between handlers in ``SLATE_SOURCE_HANDLERS`` is
       implementation-defined.
 
 **Errors**
