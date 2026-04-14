@@ -75,7 +75,7 @@ do
 
       # Adding to index.html
       printf 'Adding file reference to index.html ...\n\n'
-      if ! grep -qF "${relhtml}" index.html
+      if ! grep -qF "${finalpath}" index.html
       then
             htmlline='<h2 id="pages">Pages<\/h2><ul class="unbullet">'
 
