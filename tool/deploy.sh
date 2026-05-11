@@ -32,7 +32,7 @@ do
       datedir=`dirname "$abshtml"`
       mkdir -p "$datedir"
 
-      titleref=`sed -n '2p' "$rstfile"`
+      titleref="$(sed -n '6p' "$rstfile") - $(sed -n '2p' "$rstfile")"
       indexref='<li><a href="/pages/'"${finalpath}"'">'"${titleref}"'</a></li>'
 
       printf 'Converting file: %s to HTML using Pandoc ...\n' "$rstfile"

@@ -3,7 +3,7 @@ Pikmin Simulation
 =================
 .. class:: sub
 
-Godot 4.6 / C#
+2026-03-04
 
 ------
 
