@@ -10,7 +10,7 @@
 PAGEPATH="${1:-$PWD/pages}"
 
 RSTSRC="$PAGEPATH/rstsrc"
-indent="          "
+indent="        "
 
 if [ -z "$EDITOR" ]
 then
@@ -74,15 +74,25 @@ do
       esac
 
       # Adding to index.html
-      printf 'Adding file reference to index.html ...\n\n'
-      if ! grep -qF "${finalpath}" index.html
-      then
-            htmlline='<h2 id="pages">Pages<\/h2><ul class="unbullet">'
-
-            sed "/$htmlline/a\\
-$indent$indexref" index.html > index.tmp && mv index.tmp index.html
-      fi
+      printf 'Adding file reference to tmp file for sorting ...\n\n'
+      echo "$indexref" >> ref.tmp
 done
+
+htmlline='<h2 id="pages">Pages<\/h2><ul class="unbullet">'
+sed -i "/$htmlline/,/<\/ul>/{//!d}" index.html
+
+sort -n -t '>' -k 3 -o ref.tmp ref.tmp
+
+cat ref.tmp
+cat ref.tmp | while read -r line
+do
+      sed "/$htmlline/a\\
+$indent$line" index.html > index.tmp && mv index.tmp index.html
+done
+
+cat index.html
+
+rm ref.tmp
 
 printf "At this point, it is recommended that you pause the script (^Z) and \
 make any changes to files that you want before continuing.
