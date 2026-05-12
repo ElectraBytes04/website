@@ -22,13 +22,20 @@
 
     <!-- Main Content -->
     <div id="page">
-      <h1>Making Optimised Partitions on Digital Storage Devices</h1>
+      <h1>[Notes] Partitioning Digital Storage</h1>
       <hr>
       <div class="sub">
       <p>2026-05-11</p>
       </div>
       <hr />
-      <p>asdf</p>
+      <p>TL;DR:</p>
+      <ul>
+      <li>Convert your device's capacity to binary units</li>
+      <li>Align partitions to MiB (first partition starting at 1MiB)
+      (that's <em>MeBi</em>bytes, not <em>Mega</em>bytes)</li>
+      <li>Make sure a partition has enough space for necessary
+      filesystem headers (LUKS2 headers require ~16MiB).</li>
+      </ul>
     </div>
   </div>
 </body>
