@@ -46,4 +46,4 @@ Baking
 | Add the chocolate chips.
 | 
 | Scoop and press each ball down slightly.
-| Bake at 357°F for 10 minutes.
+| Bake at 375°F for 10 minutes.
