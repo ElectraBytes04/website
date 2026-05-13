@@ -90,8 +90,6 @@ do
 $indent$line" index.html > index.tmp && mv index.tmp index.html
 done
 
-cat index.html
-
 rm ref.tmp
 
 printf "At this point, it is recommended that you pause the script (^Z) and \
