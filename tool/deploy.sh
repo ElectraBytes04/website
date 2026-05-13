@@ -83,7 +83,6 @@ sed -i "/$htmlline/,/<\/ul>/{//!d}" index.html
 
 sort -n -t '>' -k 3 -o ref.tmp ref.tmp
 
-cat ref.tmp
 cat ref.tmp | while read -r line
 do
       sed "/$htmlline/a\\
