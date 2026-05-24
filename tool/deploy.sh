@@ -81,7 +81,7 @@ done
 htmlline='<h2 id="pages">Pages<\/h2><ul class="unbullet">'
 sed -i "/$htmlline/,/<\/ul>/{//!d}" index.html
 
-sort -n -t '>' -k 3 -o ref.tmp ref.tmp
+sort -t '>' -k 3,3 -o ref.tmp ref.tmp
 
 cat ref.tmp | while read -r line
 do

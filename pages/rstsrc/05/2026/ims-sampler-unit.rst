@@ -11,8 +11,8 @@ This list describes equipment for use by Interplanetary Marine Sciences Sampler
 Class units, on top of the normal systems provided to Stock Protogen units.
 
 
-Optics:
-```````
+Optics
+``````
 A unit may switch between Vision Modes.
 
 - Passive Thermal Vision Mode
@@ -35,8 +35,8 @@ A unit may switch between Vision Modes.
   (Primary environmental illumination)
 
 
-Acoustics:
-``````````
+Acoustics
+`````````
 - Dual-Mode Comm Unit (Hydrophone + Hydroacoustic Speaker pair)
 
   (Mounted on both side panels)
@@ -47,25 +47,41 @@ Acoustics:
   communication)
 
 
-Environmental Sensing:
-``````````````````````
+Environmental Sensing
+`````````````````````
 The data provided by the following equipment is presented on the unit's HUD as
 either numerical, or a graphical representation of numerical data. The exact
 method of visualization is noted for each.
 
-- Depth Sensor (data presentation: numerical, metres)
-- Pressure Sensor (data presentation: numerical (the sensed value), pascals;
-  numerical, percent of unit's maximum rated pressure)
-- Salinity Sensor (data presentation: numerical, per mille)
-- Flow Sensor (data presentation: numerical, metres per second)
-- Temperature Sensor (data presentation: numerical, kelvin)
-- Port- and starboard-side proximity sensors (data presentation: graphical,
-  sensed data is used by the Visor to generate and update the Dynamic Path Map
-  on the unit's HUD)
+- Depth Sensor
+
+  (data presentation: numerical, metres)
+
+- Pressure Sensor
+
+  (data presentation: numerical (the sensed value), pascals; numerical, percent
+  of unit's maximum rated pressure)
+
+- Salinity Sensor
+
+  (data presentation: numerical, per mille)
+
+- Flow Sensor
+
+  (data presentation: numerical, metres per second)
+
+- Temperature Sensor
+
+  (data presentation: numerical, kelvin)
+
+- Port- and starboard-side proximity sensors
+
+  (data presentation: graphical, sensed data is used by the Visor to generate
+  and update the Dynamic Path Map on the unit's HUD)
 
 
-Environmental Protection:
-`````````````````````````
+Environmental Protection
+````````````````````````
 - Vented Dive Hood
 
   (Maintains inner ear pressure and provides thermal regulation during
