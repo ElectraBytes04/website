@@ -4,7 +4,7 @@
 # to directly write html.
 #
 # Author : ElectraBytes04
-# Date : 2026-02-28
+# Date : 2026-05-25
 # License : GNU GPL v3; see COPYING
 
 PAGEPATH="${1:-$PWD/pages}"
