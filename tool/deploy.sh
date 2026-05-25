@@ -5,7 +5,7 @@
 #
 # Author : ElectraBytes04
 # Date : 2026-05-25
-# License : GNU GPL v3; see COPYING
+# License : GNU GPL v3; see /README.rst
 
 PAGEPATH="${1:-$PWD/pages}"
 
