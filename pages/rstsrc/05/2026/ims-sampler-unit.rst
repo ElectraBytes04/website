@@ -3,7 +3,7 @@ I.MS Sampler Class Equipment
 ============================
 .. class::sub
 
-2026-05-24
+2026-05-25
 
 ------
 
@@ -86,3 +86,29 @@ Environmental Protection
 
   (Maintains inner ear pressure and provides thermal regulation during
   submersion and variable pressure conditions.)
+
+
+Tools
+`````
+Exact material information can be found printed on each item.
+
+Custom container sizes can be requested.
+
+- Steel Carving Knife
+- Laser Rifle
+
+  (Remaining charge is displayed on the unit's HUD)
+
+- 25mm dia. 15mL Glass Vial
+- 25mm dia. 45mL Glass Vial
+- 370mm * 370mm * 95mm Tray for 25mm dia. Glass Vials
+
+  (Holds 144 25mm dia. Glass Vials)
+
+  (Can stack.)
+
+- 100mm * 100mm * 60mm Glass Container
+- 150mm * 150mm * 100mm Glass Container
+
+The unit's landing vessel is equipped with several variable-temperature storage
+units, each capable of storing 4 370mm * 370mm * 95mm Trays.
